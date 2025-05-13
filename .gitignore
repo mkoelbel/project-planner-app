@@ -1,0 +1,12 @@
+# Node modules
+client/node_modules/
+server/node_modules/
+
+# Logs
+*.log
+
+# Build output
+client/build/
+
+# OS metadata
+.DS_Store
