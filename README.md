@@ -1,15 +1,13 @@
-**Project Planner App**
-
+# Project Planner App
 *A full-stack project planning dashboard designed to help teams organize tasks, track progress, and manage deadlines.*
 
-**Tech Stack**
+## Tech Stack
 - Frontend: React
 - Backend: Node.js, Express
 - API Communication: REST
 - Development Tools: VS Code, Git
 
-**Getting Started**
-
+## Getting Started
 **Prerequisites**
 - Node.js and npm installed
 
@@ -20,7 +18,7 @@
      cd project-planner-app
      ```
   3. Install dependencies
-     
+      
       For the client:
       ```
       cd client
@@ -31,8 +29,7 @@
       cd ../server
       npm install
       ```
-  5. Run the app
-     
+  5. Run the app  
       In one terminal, start the backend:
       ```
       cd server
