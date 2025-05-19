@@ -10,3 +10,5 @@ client/build/
 
 # OS metadata
 .DS_Store
+
+docs/notes.md
