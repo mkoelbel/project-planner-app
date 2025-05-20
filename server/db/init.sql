@@ -1,5 +1,12 @@
 -- This SQL script initializes the database for a project management application.
 
+-- Drop tables
+DROP TABLE IF EXISTS team_projects CASCADE;
+DROP TABLE IF EXISTS tasks CASCADE;
+DROP TABLE IF EXISTS projects CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS teams CASCADE;
+
 -- Create enums
 CREATE TYPE status AS ENUM ('not_started', 'in_progress', 'completed', 'overdue', 'paused');
 CREATE TYPE project_priority AS ENUM ('low', 'medium', 'high');
@@ -9,7 +16,7 @@ CREATE TABLE teams (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE users (
@@ -19,7 +26,7 @@ CREATE TABLE users (
     email VARCHAR(75) UNIQUE NOT NULL,
     team_id INTEGER REFERENCES teams(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE projects (
@@ -30,7 +37,7 @@ CREATE TABLE projects (
     status status NOT NULL DEFAULT 'not_started',
     priority project_priority NOT NULL DEFAULT 'medium',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE tasks (
@@ -42,7 +49,7 @@ CREATE TABLE tasks (
     deadline TIMESTAMP,
     status status NOT NULL DEFAULT 'not_started',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE team_projects (
@@ -50,7 +57,7 @@ CREATE TABLE team_projects (
     team_id INTEGER REFERENCES teams(id),
     project_id INTEGER REFERENCES projects(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Insert mock data
@@ -108,7 +115,7 @@ INSERT INTO tasks (name, description, project_id, user_id, deadline, status) VAL
 -- Team: Modeling
 ('Perform data ETL for market sales data', 'Collect, clean, and load competitor pricing data for similar products.', 4, 1, '2025-10-31', 'not_started'),
 ('Perform data ETL for historical sales data', 'Collect, clean, and load historical sales data.', 4, 2, '2025-10-31', 'not_started'),
-('Perform data ETL for ingredient cost data', 'Collect, clean, and load cost of ingredient data.', 4, 3, '2025-10-31', 'complnot_startedeted'),
+('Perform data ETL for ingredient cost data', 'Collect, clean, and load cost of ingredient data.', 4, 3, '2025-10-31', 'not_started'),
 ('Analyze price sensitivity', 'Understand how price changes affect sales for different menu items.', 4, 3, '2025-11-30', 'not_started'),
 ('Build pricing model', 'Create a model to estimate how price impacts revenue and recommend optimal prices for each product to maximize profit.', 4, 1, '2025-12-31', 'not_started'),
 ('Output pricing recommendations', 'Generate a list of the recommended price for each product and a brief explanation of how it was chosen.', 4, 2, '2026-01-31', 'not_started'),
