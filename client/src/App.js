@@ -12,7 +12,7 @@ const AppLayout = () => {
   const navigate = useNavigate();
 
   return (
-    <Layout>
+    <Layout style={{ minHeight: '100vh' }}>
       {/* Sidebar */}
       <Layout.Sider collapsible>
         <Menu 
@@ -29,7 +29,7 @@ const AppLayout = () => {
 
       {/* Main Layout */}
       <Layout>
-        <Layout.Content>
+        <Layout.Content style={{ margin: '1rem' }}>
           <Routes>
             <Route path="/project-dashboard" element={<ProjectDashboard />}></Route>
             <Route path="/project-management" element={<div>Tasks Page (Coming Soon)</div>} />
