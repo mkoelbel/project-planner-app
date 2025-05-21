@@ -1,10 +1,8 @@
+import ProjectStatusBarChart from 'components/charts/ProjectStatusBarChart';
 
 const ProjectDashboard = () => {
   return (
-    <div>
-      <h1>Projects</h1>
-      <p>This is the Projects dashboard.</p>
-    </div>
+    <ProjectStatusBarChart />
   );
 };
 
