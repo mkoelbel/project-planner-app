@@ -1,18 +1,12 @@
-.App {
-  /* text-align: center; */
-}
-
-.ant-layout {
-   /* min-height: '100vh'; */
-}
-
 .ant-layout-header {
-  padding: 0.5rem;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ant-layout-header .ant-typography {
   color: rgb(216, 212, 212);
+  margin: 0;
 }
 
 .ant-layout-content {

@@ -8,13 +8,15 @@ import ProjectDashboard from 'pages/ProjectDashboard';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 
-function App() {
+const { Sider, Header, Content } = Layout; 
+
+const App = () => {
   const navigate = useNavigate();
 
   return (
     <Layout>
       {/* Sidebar */}
-      <Layout.Sider collapsible>
+      <Sider collapsible>
         <Menu 
           theme="dark" 
           mode="inline" 
@@ -25,25 +27,25 @@ function App() {
           <Menu.Item key="project-management" icon={<PlusCircleOutlined />}>Project Management</Menu.Item>
           <Menu.Item key="user-management" icon={<UserOutlined />}>User Management</Menu.Item>
         </Menu>
-      </Layout.Sider>
+      </Sider>
 
       <Layout>
         {/* Header */}
-        <Layout.Header>
-          <Typography.Title>XYZ Company Project Planner</Typography.Title>
-        </Layout.Header>
+        <Header>
+          <Typography.Title level={2}>XYZ Company Project Planner</Typography.Title>
+        </Header>
 
         {/* Main Layout */}
-        <Layout.Content>
+        <Content>
           <Routes>
             <Route path="/project-dashboard" element={<ProjectDashboard />}></Route>
             <Route path="/project-management" element={<div>Tasks Page (Coming Soon)</div>} />
             <Route path="/user-management" element={<div>Teams Page (Coming Soon)</div>} />
           </Routes>
-        </Layout.Content>
+        </Content>
       </Layout>
     </Layout>
   );
-}
+};
 
 export default App;
