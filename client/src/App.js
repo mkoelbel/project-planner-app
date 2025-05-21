@@ -4,9 +4,9 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Typography } from 'antd';
+import ProjectDashboard from 'pages/ProjectDashboard';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
-import ProjectDashboard from './pages/ProjectDashboard';
 
 function App() {
   const navigate = useNavigate();
