@@ -3,16 +3,16 @@ import {
   ProjectOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
-import { Route, BrowserRouter as Router, Routes, useNavigate } from 'react-router-dom';
+import { Layout, Menu, Typography } from 'antd';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import ProjectDashboard from './pages/ProjectDashboard';
 
-const AppLayout = () => {
+function App() {
   const navigate = useNavigate();
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout>
       {/* Sidebar */}
       <Layout.Sider collapsible>
         <Menu 
@@ -27,9 +27,14 @@ const AppLayout = () => {
         </Menu>
       </Layout.Sider>
 
-      {/* Main Layout */}
       <Layout>
-        <Layout.Content style={{ margin: '1rem' }}>
+        {/* Header */}
+        <Layout.Header>
+          <Typography.Title>XYZ Company Project Planner</Typography.Title>
+        </Layout.Header>
+
+        {/* Main Layout */}
+        <Layout.Content>
           <Routes>
             <Route path="/project-dashboard" element={<ProjectDashboard />}></Route>
             <Route path="/project-management" element={<div>Tasks Page (Coming Soon)</div>} />
@@ -39,12 +44,6 @@ const AppLayout = () => {
       </Layout>
     </Layout>
   );
-};
-
-const App = () => (
-  <Router>
-    <AppLayout />
-  </Router>
-);
+}
 
 export default App;
