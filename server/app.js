@@ -10,12 +10,14 @@ app.use(cors({
 app.use(express.json()); // Required to parse JSON request bodies
 
 // Routes
+const analyticsRoutes = require('./routes/analytics');
 const projectsRoutes = require('./routes/projects');
 const tasksRoutes = require('./routes/tasks');
 const teamProjectsRoutes = require('./routes/teamProjects');
 const teamsRoutes = require('./routes/teams');
 const usersRoutes = require('./routes/users');
 
+app.use('/api/analytics', analyticsRoutes);
 app.use('/api/projects', projectsRoutes);
 app.use('/api/tasks', tasksRoutes);
 app.use('/api/teamProjects', teamProjectsRoutes);
