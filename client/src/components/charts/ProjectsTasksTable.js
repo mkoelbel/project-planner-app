@@ -10,7 +10,7 @@ const projectColumns = [
     { title: 'Project Description', dataIndex: 'description', key: 'projectDescription' },
     { title: 'Project Priority', dataIndex: 'priority', key: 'projectPriority', render: (priority) => PRIORITY_LABELS[priority] },
     { title: 'Project Status', dataIndex: 'status', key: 'projectStatus', render: (status) => STATUS_LABELS[status] },
-    { title: 'Project Deadline', dataIndex: 'deadline', key: 'projectDeadline', render: (date) => dayjs(date).format('YYYY-MM-DD') },
+    { title: 'Project Deadline', dataIndex: 'deadline', key: 'projectDeadline', render: (date) => <div style={{ whiteSpace: "nowrap" }}>{dayjs(date).format('YYYY-MM-DD')}</div> },
 ];
 
 const taskColumns = [
@@ -18,7 +18,7 @@ const taskColumns = [
     { title: 'Task Description', dataIndex: 'description', key: 'taskDescription' },
     { title: 'Assigned To', key: 'taskUserFullName', render: (_, record) => `${record.user_last_name}, ${record.user_first_name}` },
     { title: 'Task Status', dataIndex: 'status', key: 'taskStatus', render: (status) => STATUS_LABELS[status] },
-    { title: 'Task Deadline', dataIndex: 'deadline', key: 'taskDeadline', render: (date) => dayjs(date).format('YYYY-MM-DD') },
+    { title: 'Task Deadline', dataIndex: 'deadline', key: 'taskDeadline', render: (date) => <div style={{ whiteSpace: "nowrap" }}>{dayjs(date).format('YYYY-MM-DD')}</div> },
 ];
 
 const selectedTeamId = 1; // Replace with the actual selected team ID
