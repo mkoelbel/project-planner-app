@@ -1,5 +1,7 @@
 import { Progress } from 'antd';
+import Typography from 'antd/es/typography/Typography';
 import { useTaskStatusByTeam } from 'api/analyticsApi';
+import { useProjects } from 'api/projectsApi';
 import { Bar, BarChart, LabelList, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const STATUSES = [
@@ -10,6 +12,7 @@ const STATUSES = [
   { key: "paused", label: "Paused", color: "#faad14" },
 ];
 
+// For stacked bar chart, need a separate column for each status
 const transformDataForChart = (rawData) => {
     const grouped = {};
 
@@ -31,6 +34,7 @@ const transformDataForChart = (rawData) => {
     return Object.values(grouped);
 };
 
+// Need a custom label so that we don't show label for empty bars
 const renderLabel = (props) => {
     const { value, x, y, width, height } = props;
     if (!value) return null;
@@ -48,43 +52,64 @@ const renderLabel = (props) => {
 };
 
 const ProjectStatusBarChart = () => {
-  const { data: rawData, isLoading, error } = useTaskStatusByTeam();
+  const { 
+    data: projects = [], 
+    isLoading: projectsLoading, 
+    error: projectsError 
+  } = useProjects({ status: 'in_progress' });
+  const projectNames = projects.map(project => project.name);
+
+  const { 
+    data: rawData = [], 
+    isLoading: tasksLoading, 
+    error: tasksError 
+  } = useTaskStatusByTeam();
   const chartData = transformDataForChart(rawData);
 
-  if (isLoading) return <Progress type='circle' />;
-  if (error) return <div>Error loading data.</div>;
+  if (tasksLoading || projectsLoading) return <Progress type='circle' />;
+  if (tasksError || projectsError) return <div>Error loading data.</div>;
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
-        <BarChart
-            layout="vertical"
-            data={chartData}
-            margin={{ top: 20, bottom: 20, left: 50, right: 50 }}
-        >
-            <XAxis type="number" />
-            <YAxis dataKey="team_name" type="category" />
-            <Tooltip />
-            <Legend />
-            {STATUSES.map(({key, label, color}, idx) => (
-                <Bar key={key} dataKey={key} stackId="a" fill={color} name={label}>
-                    {/* Incremental label */}
-                    <LabelList 
-                        dataKey={key}
-                        content={renderLabel}
-                    />
-                    {/* Cumulative label (only on last bar section) */}
-                    <LabelList
-                        valueAccessor={(entry) =>
-                            idx === STATUSES.length - 1 ? entry.value[1] : null
-                        }
-                        position="right"
-                        offset={15}
-                        style={{ fontWeight: "bold" }}
-                    />
-                </Bar>
-            ))}
-        </BarChart>
-    </ResponsiveContainer>
+    <>
+        {/* Title */}
+        <Typography.Title level={4}>Project Status by Team</Typography.Title>
+
+        <Typography.Text strong>
+            Displaying in-progress projects only: {projectNames.join(', ')}
+        </Typography.Text>
+
+        {/* Chart */}
+        <ResponsiveContainer width="100%" height={300}>
+            <BarChart
+                layout="vertical"
+                data={chartData}
+                margin={{ top: 20, bottom: 20, left: 50, right: 50 }}
+            >
+                <XAxis type="number" />
+                <YAxis dataKey="team_name" type="category" />
+                <Tooltip />
+                <Legend />
+                {STATUSES.map(({key, label, color}, idx) => (
+                    <Bar key={key} dataKey={key} stackId="a" fill={color} name={label}>
+                        {/* Incremental label */}
+                        <LabelList 
+                            dataKey={key}
+                            content={renderLabel}
+                        />
+                        {/* Cumulative label (only on last bar section) */}
+                        <LabelList
+                            valueAccessor={(entry) =>
+                                idx === STATUSES.length - 1 ? entry.value[1] : null
+                            }
+                            position="right"
+                            offset={15}
+                            style={{ fontWeight: "bold" }}
+                        />
+                    </Bar>
+                ))}
+            </BarChart>
+        </ResponsiveContainer>
+    </>
   );
 };
 
