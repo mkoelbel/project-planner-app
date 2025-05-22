@@ -1,3 +1,7 @@
 .ant-table-expanded-row > td {
-  padding-bottom: 2rem !important;
+  padding: 1.5rem 0 !important;
+}
+
+.ant-table-cell {
+  padding: 0.5rem 0.75rem !important;
 }

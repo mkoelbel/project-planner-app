@@ -5,58 +5,47 @@ import { PRIORITY_LABELS, STATUS_LABELS } from 'constants/enums';
 import dayjs from 'dayjs';
 import './ProjectsTasksTable.css';
 
-const projectColumns = [
+const columns = [
     { 
-        title: 'Project Name',
+        title: 'Name',
         dataIndex: 'name',
-        key: 'projectName',
+        key: 'name',
         render: (name, record) => <Tooltip title={record.description}>{name}</Tooltip>,
-    },
-    { 
-        title: 'Project Priority',
-        dataIndex: 'priority',
-        key: 'projectPriority',
-        render: (priority) => PRIORITY_LABELS[priority],
-
-    },
-    { 
-        title: 'Project Status',
-        dataIndex: 'status',
-        key: 'projectStatus',
-        render: (status) => STATUS_LABELS[status],
-
-    },
-    { 
-        title: 'Project Deadline',
-        dataIndex: 'deadline',
-        key: 'projectDeadline',
-        render: (date) => <div style={{ whiteSpace: "nowrap" }}>{dayjs(date).format('YYYY-MM-DD')}</div>,
-    },
-];
-
-const taskColumns = [
-    { 
-        title: 'Task Name',
-        dataIndex: 'name',
-        key: 'taskName',
-        render: (name, record) => <Tooltip title={record.description}>{name}</Tooltip>,
+        width: 400,
     },
     { 
         title: 'Assigned To',
-        key: 'taskUserFullName',
-        render: (_, record) => `${record.user_last_name}, ${record.user_first_name}`,
+        key: 'userFullName',
+        render: (_, record) => {
+            const firstName = record.user_first_name || '';
+            const lastName = record.user_last_name || '';
+            const fullName = `${lastName}, ${firstName}`.trim().replace(/^,|,$/, '');
+            return fullName || '';
+        },
+        width: 200,
     },
     { 
-        title: 'Task Status',
+        title: 'Priority',
+        dataIndex: 'priority',
+        key: 'priority',
+        render: (priority) => PRIORITY_LABELS[priority],
+        width: 100,
+        
+    },
+    { 
+        title: 'Status',
         dataIndex: 'status',
-        key: 'taskStatus',
+        key: 'status',
         render: (status) => STATUS_LABELS[status],
+        width: 200,
+        
     },
     { 
-        title: 'Task Deadline',
+        title: 'Deadline',
         dataIndex: 'deadline',
-        key: 'taskDeadline',
+        key: 'deadline',
         render: (date) => <div style={{ whiteSpace: "nowrap" }}>{dayjs(date).format('YYYY-MM-DD')}</div>,
+        width: 200,
     },
 ];
 
@@ -89,18 +78,19 @@ const ProjectsTasksTable = () => {
 
         {/* Table */}
         <Table 
-            columns={projectColumns}
+            columns={columns}
             dataSource={individualTeamProjectsTasks}
             rowKey='id'
             rowHoverable={false}
             expandable={{
                 expandedRowRender: project => (
                     <Table
-                        columns={taskColumns}
+                        columns={columns}
                         dataSource={project.tasks}
                         rowKey='id'
                         rowHoverable={false}
                         pagination={false}
+                        showHeader={false}
                     />
                 ),
             }}
