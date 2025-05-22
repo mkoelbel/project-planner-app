@@ -76,7 +76,7 @@ const ProjectStatusBarChart = () => {
         <Typography.Title level={4}>Task Status</Typography.Title>
 
         <Typography.Text strong>
-            Displaying in-progress projects only: {projectNames.join(', ')}
+            Includes tasks for in-progress projects only: {projectNames.join(', ')}
         </Typography.Text>
 
         {/* Chart */}
