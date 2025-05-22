@@ -30,7 +30,7 @@ const transformDataForChart = (rawData) => {
         }
         grouped[team_name][status] = task_count;
     });
-    console.log('Grouped Data:', grouped);
+
     return Object.values(grouped);
 };
 
@@ -57,22 +57,23 @@ const ProjectStatusBarChart = () => {
     isLoading: projectsLoading, 
     error: projectsError 
   } = useProjects({ status: 'in_progress' });
-  const projectNames = projects.map(project => project.name);
 
   const { 
     data: rawData = [], 
     isLoading: tasksLoading, 
     error: tasksError 
   } = useTaskStatusByTeam();
-  const chartData = transformDataForChart(rawData);
 
   if (tasksLoading || projectsLoading) return <Progress type='circle' />;
   if (tasksError || projectsError) return <div>Error loading data.</div>;
 
+  const projectNames = projects.map(project => project.name);
+  const chartData = transformDataForChart(rawData);
+
   return (
     <>
         {/* Title */}
-        <Typography.Title level={4}>Project Status by Team</Typography.Title>
+        <Typography.Title level={4}>Task Status</Typography.Title>
 
         <Typography.Text strong>
             Displaying in-progress projects only: {projectNames.join(', ')}
