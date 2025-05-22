@@ -16,7 +16,7 @@ const projectColumns = [
 const taskColumns = [
     { title: 'Task Name', dataIndex: 'name', key: 'taskName' },
     { title: 'Task Description', dataIndex: 'description', key: 'taskDescription' },
-    { title: 'Assigned To', dataIndex: 'user_email', key: 'taskUserEmail' },
+    { title: 'Assigned To', key: 'taskUserFullName', render: (_, record) => `${record.user_last_name}, ${record.user_first_name}` },
     { title: 'Task Status', dataIndex: 'status', key: 'taskStatus', render: (status) => STATUS_LABELS[status] },
     { title: 'Task Deadline', dataIndex: 'deadline', key: 'taskDeadline', render: (date) => dayjs(date).format('YYYY-MM-DD') },
 ];
