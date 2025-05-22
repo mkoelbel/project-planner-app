@@ -1,11 +1,13 @@
 .ant-layout {
-  /* min-height: 100vh; */
+  height: 100vh;
+  overflow: hidden;
 }
 
 .ant-layout-header {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #002140;
 }
 
 .ant-layout-header .ant-typography {
@@ -14,13 +16,9 @@
 }
 
 .ant-layout-sider {
-  overflow: 'auto';
-  height: '100vh';
-  position: 'sticky';
-  top: 0;
-  bottom: 0;
-  scrollbar-width: 'thin';
-  scrollbar-gutter: 'stable';
+  overflow: auto;
+  height: calc(100vh - 64px - 48px); /* [Full height] - [Header height] - [Collapse button height]  */
+  position: sticky;
 }
 
 .ant-menu-item {
@@ -32,4 +30,5 @@
 
 .ant-layout-content {
   padding: 1rem;
+  overflow: auto;
 }
