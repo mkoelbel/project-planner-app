@@ -1,8 +1,16 @@
 const db = require('../db');
 
 // Standard CRUD operations
-const getAllProjects = async () => {
-    const result = await db.query('SELECT * FROM projects');
+const getAllProjects = async (status) => {
+    let query = 'SELECT * FROM projects';
+    let params = [];
+
+    if (status) {
+        query += ' WHERE status = $1';
+        params.push(status);
+    }
+
+    const result = await db.query(query, params);
     return result.rows;
 };
 

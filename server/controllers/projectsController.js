@@ -3,7 +3,8 @@ const projectsService = require('../services/projectsService');
 // Standard CRUD operations
 const getAllProjects = async (req, res) => {
   try {
-    const projects = await projectsService.getAllProjects();
+    const { status } = req.query;
+    const projects = await projectsService.getAllProjects(status);
     res.json(projects);
   } catch (error) {
     console.error('Error fetching projects:', error);
