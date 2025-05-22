@@ -1,3 +1,4 @@
+import { FormOutlined, ProductOutlined } from '@ant-design/icons';
 import { Progress, Table, Tooltip } from 'antd';
 import Typography from 'antd/es/typography/Typography';
 import { useProjectsTasks } from 'api/analyticsApi';
@@ -5,7 +6,20 @@ import { PRIORITY_LABELS, STATUS_LABELS } from 'constants/enums';
 import dayjs from 'dayjs';
 import './ProjectsTasksTable.css';
 
-const columns = [
+
+const projectIconColumn = {
+    title: '',
+    key: 'icon',
+    render: () => <ProductOutlined style={{ color: '#9648c7', fontSize: 16 }} />,
+    width: 50,
+};
+const taskIconColumn = {
+    title: '',
+    key: 'icon',
+    render: () => <FormOutlined style={{ color: '#ff7a45', fontSize: 16 }} />,
+    width: 50,
+};
+const SharedColumns = [
     { 
         title: 'Name',
         dataIndex: 'name',
@@ -49,6 +63,9 @@ const columns = [
     },
 ];
 
+const projectColumns = [projectIconColumn, ...SharedColumns];
+const taskColumns = [taskIconColumn, ...SharedColumns];
+
 const selectedTeamId = 1; // Replace with the actual selected team ID
 
 const filterProjectsTasksByTeam = (projectsTasks, teamId) => {
@@ -78,7 +95,7 @@ const ProjectsTasksTable = () => {
 
         {/* Table */}
         <Table 
-            columns={columns}
+            columns={projectColumns}
             dataSource={individualTeamProjectsTasks}
             rowKey='id'
             rowHoverable={false}
@@ -86,7 +103,7 @@ const ProjectsTasksTable = () => {
                 expandedRowRender: project => (
                     <div className='child-table'>
                         <Table
-                            columns={columns}
+                            columns={taskColumns}
                             dataSource={project.tasks}
                             rowKey='id'
                             rowHoverable={false}
