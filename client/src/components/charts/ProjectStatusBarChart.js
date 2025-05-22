@@ -2,15 +2,8 @@ import { Progress } from 'antd';
 import Typography from 'antd/es/typography/Typography';
 import { useTaskStatusByTeam } from 'api/analyticsApi';
 import { useProjects } from 'api/projectsApi';
+import { STATUSES } from 'constants/enums';
 import { Bar, BarChart, LabelList, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-
-const STATUSES = [
-  { key: "not_started", label: "Not Started", color: "#bfbfbf" },
-  { key: "in_progress", label: "In Progress", color: "#4096ff" },
-  { key: "completed", label: "Completed", color: "#60cc52" },
-  { key: "overdue", label: "Overdue", color: "#ff4d4f" },
-  { key: "paused", label: "Paused", color: "#faad14" },
-];
 
 // For stacked bar chart, need a separate column for each status
 const transformDataForChart = (rawData) => {
