@@ -1,12 +1,26 @@
+.ant-layout {
+  /* min-height: 100vh; */
+}
+
 .ant-layout-header {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .ant-layout-header .ant-typography {
   color: rgb(216, 212, 212);
   margin: 0;
+}
+
+.ant-layout-sider {
+  overflow: 'auto';
+  height: '100vh';
+  position: 'sticky';
+  top: 0;
+  bottom: 0;
+  scrollbar-width: 'thin';
+  scrollbar-gutter: 'stable';
 }
 
 .ant-layout-content {
