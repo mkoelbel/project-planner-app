@@ -67,12 +67,12 @@ INSERT INTO teams (name) VALUES
 ;
 
 INSERT INTO users (first_name, last_name, email, team_id) VALUES
-('Modeler1', 'User1', 'modeler1user1@company.com', 1),
-('Modeler2', 'User2', 'modeler2user2@company.com', 1),
-('Modeler3', 'User3', 'modeler3user3@company.com', 1),
-('Developer4', 'User4', 'developer4user4@company.com', 2),
-('Developer5', 'User5', 'developer5user5@company.com', 2),
-('Developer6', 'User6', 'developer6user6@company.com', 2)
+('First1', 'Last1', 'first1last1@company.com', 1),
+('First2', 'Last2', 'first2last2@company.com', 1),
+('First3', 'Last3', 'first3last3@company.com', 1),
+('First4', 'Last4', 'first4last4@company.com', 2),
+('First5', 'Last5', 'first5last5@company.com', 2),
+('First6', 'Last6', 'first6last6@company.com', 2)
 ;
 
 INSERT INTO projects (name, description, deadline, status, priority) VALUES
