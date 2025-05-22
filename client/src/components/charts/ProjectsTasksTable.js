@@ -84,14 +84,16 @@ const ProjectsTasksTable = () => {
             rowHoverable={false}
             expandable={{
                 expandedRowRender: project => (
-                    <Table
-                        columns={columns}
-                        dataSource={project.tasks}
-                        rowKey='id'
-                        rowHoverable={false}
-                        pagination={false}
-                        showHeader={false}
-                    />
+                    <div className='child-table'>
+                        <Table
+                            columns={columns}
+                            dataSource={project.tasks}
+                            rowKey='id'
+                            rowHoverable={false}
+                            pagination={false}
+                            showHeader={false}
+                        />
+                    </div>
                 ),
             }}
         />

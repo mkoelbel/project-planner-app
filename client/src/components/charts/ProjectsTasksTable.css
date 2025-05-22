@@ -1,7 +1,12 @@
 .ant-table-expanded-row > td {
-  padding: 1.5rem 0 !important;
+  padding: 0 !important;
 }
 
 .ant-table-cell {
   padding: 0.5rem 0.75rem !important;
+}
+
+.child-table {
+  margin: 0.5rem 0 !important;
+  margin-left: 48px !important;
 }
