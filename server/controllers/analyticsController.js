@@ -10,6 +10,17 @@ const getTaskStatusByTeam = async (req, res) => {
   }
 };
 
+const getProjectsTasks = async (req, res) => {
+  try {
+    const result = await analyticsService.getProjectsTasks();
+    res.json(result);
+  } catch (error) {
+    console.error('Error fetching projects tasks:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 module.exports = {
   getTaskStatusByTeam,
+  getProjectsTasks,
 };

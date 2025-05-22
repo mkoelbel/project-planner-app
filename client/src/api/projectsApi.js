@@ -6,7 +6,6 @@ const fetchProjects = async (status) => {
   const { data } = await axios.get(url);
   return data;
 };
-
 export const useProjects = ({ status } = {}) => {
     return useQuery({
         queryKey: ['projects', status],
