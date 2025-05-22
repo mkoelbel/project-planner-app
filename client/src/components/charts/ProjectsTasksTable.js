@@ -1,4 +1,4 @@
-import { Progress, Table } from 'antd';
+import { Progress, Table, Tooltip } from 'antd';
 import Typography from 'antd/es/typography/Typography';
 import { useProjectsTasks } from 'api/analyticsApi';
 import { PRIORITY_LABELS, STATUS_LABELS } from 'constants/enums';
@@ -6,19 +6,58 @@ import dayjs from 'dayjs';
 import './ProjectsTasksTable.css';
 
 const projectColumns = [
-    { title: 'Project Name', dataIndex: 'name', key: 'projectName' },
-    { title: 'Project Description', dataIndex: 'description', key: 'projectDescription' },
-    { title: 'Project Priority', dataIndex: 'priority', key: 'projectPriority', render: (priority) => PRIORITY_LABELS[priority] },
-    { title: 'Project Status', dataIndex: 'status', key: 'projectStatus', render: (status) => STATUS_LABELS[status] },
-    { title: 'Project Deadline', dataIndex: 'deadline', key: 'projectDeadline', render: (date) => <div style={{ whiteSpace: "nowrap" }}>{dayjs(date).format('YYYY-MM-DD')}</div> },
+    { 
+        title: 'Project Name',
+        dataIndex: 'name',
+        key: 'projectName',
+        render: (name, record) => <Tooltip title={record.description}>{name}</Tooltip>,
+    },
+    { 
+        title: 'Project Priority',
+        dataIndex: 'priority',
+        key: 'projectPriority',
+        render: (priority) => PRIORITY_LABELS[priority],
+
+    },
+    { 
+        title: 'Project Status',
+        dataIndex: 'status',
+        key: 'projectStatus',
+        render: (status) => STATUS_LABELS[status],
+
+    },
+    { 
+        title: 'Project Deadline',
+        dataIndex: 'deadline',
+        key: 'projectDeadline',
+        render: (date) => <div style={{ whiteSpace: "nowrap" }}>{dayjs(date).format('YYYY-MM-DD')}</div>,
+    },
 ];
 
 const taskColumns = [
-    { title: 'Task Name', dataIndex: 'name', key: 'taskName' },
-    { title: 'Task Description', dataIndex: 'description', key: 'taskDescription' },
-    { title: 'Assigned To', key: 'taskUserFullName', render: (_, record) => `${record.user_last_name}, ${record.user_first_name}` },
-    { title: 'Task Status', dataIndex: 'status', key: 'taskStatus', render: (status) => STATUS_LABELS[status] },
-    { title: 'Task Deadline', dataIndex: 'deadline', key: 'taskDeadline', render: (date) => <div style={{ whiteSpace: "nowrap" }}>{dayjs(date).format('YYYY-MM-DD')}</div> },
+    { 
+        title: 'Task Name',
+        dataIndex: 'name',
+        key: 'taskName',
+        render: (name, record) => <Tooltip title={record.description}>{name}</Tooltip>,
+    },
+    { 
+        title: 'Assigned To',
+        key: 'taskUserFullName',
+        render: (_, record) => `${record.user_last_name}, ${record.user_first_name}`,
+    },
+    { 
+        title: 'Task Status',
+        dataIndex: 'status',
+        key: 'taskStatus',
+        render: (status) => STATUS_LABELS[status],
+    },
+    { 
+        title: 'Task Deadline',
+        dataIndex: 'deadline',
+        key: 'taskDeadline',
+        render: (date) => <div style={{ whiteSpace: "nowrap" }}>{dayjs(date).format('YYYY-MM-DD')}</div>,
+    },
 ];
 
 const selectedTeamId = 1; // Replace with the actual selected team ID
