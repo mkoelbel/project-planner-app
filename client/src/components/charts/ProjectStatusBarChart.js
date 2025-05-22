@@ -79,14 +79,14 @@ const ProjectStatusBarChart = () => {
         </Typography.Text>
 
         {/* Chart */}
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={200}>
             <BarChart
                 layout="vertical"
                 data={chartData}
                 margin={{ top: 20, bottom: 20, left: 50, right: 50 }}
             >
-                <XAxis type="number" />
-                <YAxis dataKey="team_name" type="category" />
+                <XAxis type="number" hide="true" />
+                <YAxis dataKey="team_name" type="category"/>
                 <Tooltip />
                 <Legend />
                 {STATUSES.map(({key, label, color}, idx) => (
