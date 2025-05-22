@@ -44,7 +44,7 @@ const getProjectsTasks = async () => {
         JOIN teams as teams ON users.team_id = teams.id
         ORDER BY 
             projects.name,
-            tasks.id
+            tasks.deadline
     `);
     const rows = result.rows;
 
