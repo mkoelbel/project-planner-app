@@ -23,6 +23,13 @@
   scrollbar-gutter: 'stable';
 }
 
+.ant-menu-item {
+  white-space: normal !important; /* Wrap around to next line as needed */
+  height: auto !important;        /* Stretch to allow as many lines as needed */
+  line-height: 1.2 !important;    /* Shrink line height to reasonable value */
+  padding: 0.5rem 0;
+}
+
 .ant-layout-content {
   padding: 1rem;
 }
