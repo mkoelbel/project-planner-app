@@ -48,8 +48,8 @@ const getProjectsTasks = async () => {
     `);
     const rows = result.rows;
 
+    // Return nested list rather than flat table, since frontend grouped table works best with nested data
     const projectsMap = {};
-
     rows.forEach(row => {
         const { 
             project_id, project_name, project_description, project_deadline, project_status, project_priority, 
