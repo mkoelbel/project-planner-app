@@ -4,7 +4,7 @@ import ProjectStatusBarChart from 'components/charts/ProjectStatusBarChart';
 
 const ProjectDashboard = () => {
   return (
-    <Flex vertical gap="large">
+    <Flex vertical gap="middle">
       <Card><ProjectStatusBarChart /></Card>
       <Card><ProjectsTasksTable /></Card>
     </Flex>
