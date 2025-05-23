@@ -1,4 +1,4 @@
-import { FormOutlined, ProductOutlined } from '@ant-design/icons';
+import { FileTextOutlined, ProductOutlined } from '@ant-design/icons';
 import { Progress, Table, Tooltip } from 'antd';
 import Typography from 'antd/es/typography/Typography';
 import { useProjectsTasks } from 'api/analyticsApi';
@@ -16,7 +16,7 @@ const projectIconColumn = {
 const taskIconColumn = {
     title: '',
     key: 'icon',
-    render: () => <FormOutlined style={{ color: '#ff7a45', fontSize: 16 }} />,
+    render: () => <FileTextOutlined style={{ color: '#ff7a45', fontSize: 16 }} />,
     width: 50,
 };
 const SharedColumns = [
@@ -99,6 +99,7 @@ const ProjectsTasksTable = () => {
             dataSource={individualTeamProjectsTasks}
             rowKey='id'
             rowHoverable={false}
+            rowClassName={() => 'parent-row'}
             expandable={{
                 expandedRowRender: project => (
                     <div className='child-table'>
@@ -112,6 +113,7 @@ const ProjectsTasksTable = () => {
                         />
                     </div>
                 ),
+                defaultExpandAllRows: true,
             }}
         />
     </>
