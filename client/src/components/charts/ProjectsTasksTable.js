@@ -3,6 +3,7 @@ import { Flex, Progress, Select, Table, Tooltip } from 'antd';
 import Typography from 'antd/es/typography/Typography';
 import { useProjectsTasks } from 'api/analyticsApi';
 import { useTeams } from 'api/teamsApi';
+import { useUsers } from 'api/usersApi';
 import { PRIORITY_LABELS, STATUS_LABELS } from 'constants/enums';
 import dayjs from 'dayjs';
 import { useEffect, useMemo, useState } from 'react';
@@ -82,6 +83,12 @@ const ProjectsTasksTable = () => {
         error: teamsError 
     } = useTeams();
 
+    const {
+        data: users = [],
+        isLoading: usersLoading,
+        error: usersError
+    } = useUsers();
+
     // 2. Get input options    
     const teamOptions = useMemo(() => 
         teams.map(team => ({
@@ -97,9 +104,31 @@ const ProjectsTasksTable = () => {
         })), [projectsTasks]
     );
 
+    const userOptions = useMemo(() =>
+        users.map(user => ({
+            value: user.id,
+            label: `${user.last_name}, ${user.first_name}`,
+        })), [users]
+    );
+
+    const priorityOptions = Object.entries(PRIORITY_LABELS).map(([key, label]) => ({
+        value: key,
+        label: label,
+    }));
+
+    const statusOptions = Object.entries(STATUS_LABELS).map(([key, label]) => ({
+        value: key,
+        label: label,
+    }));
+
     // 3. Initialize selected inputs
     const [selectedTeam, setSelectedTeam] = useState(null);
     const [selectedProjects, setSelectedProjects] = useState([]);
+    const [selectedUsers, setSelectedUsers] = useState([]);
+    // Can initialize these with defaults now, since they don't depend on any fetched data
+    const [selectedProjectPriorities, setSelectedProjectPriorities] = useState(priorityOptions.map(option => option.value));
+    const [selectedProjectStatuses, setSelectedProjectStatuses] = useState(statusOptions.map(option => option.value));
+    const [selectedTaskStatuses, setSelectedTaskStatuses] = useState(statusOptions.map(option => option.value));
 
     // 4. Set default input selections
     useEffect(() => {
@@ -115,21 +144,38 @@ const ProjectsTasksTable = () => {
     }
     }, [projectsTasks, selectedProjects]);
 
+    useEffect(() => {
+        if (userOptions.length > 0 && selectedUsers.length === 0) {
+            const allUserValues = userOptions.map(user => user.value);
+            setSelectedUsers(allUserValues);
+        }
+    }, [userOptions, selectedUsers]);
+
     // 5. Filter data based on input selections
     const filteredProjectsTasks = useMemo(() => {
-        return projectsTasks
-        .filter(project => selectedProjects.includes(project.id))
+        const result = projectsTasks
+        .filter(project =>
+            selectedProjects.includes(project.id) 
+            && selectedProjectPriorities.includes(project.priority)
+            && selectedProjectStatuses.includes(project.status)
+        )
         .map(project => {
-            const filteredTasks = project.tasks.filter(task => task.user_team_id === selectedTeam);
+            const filteredTasks = project.tasks.filter(task => 
+                task.user_team_id === selectedTeam
+                && selectedUsers.includes(task.user_id)
+                && selectedTaskStatuses.includes(task.status)
+            );
             return {
                 ...project,
                 tasks: filteredTasks,
             };
         });
-    }, [projectsTasks, selectedTeam, selectedProjects]);
+        return result;
+    }, [projectsTasks, selectedProjects, selectedProjectPriorities, selectedProjectStatuses,
+        selectedTeam, selectedUsers, selectedTaskStatuses]);
 
-    if (projectsTasksLoading || teamsLoading) return <Progress type='circle' />;
-    if (projectsTasksError || teamsError) return <div>Error loading data.</div>;
+    if (projectsTasksLoading || teamsLoading || usersLoading) return <Progress type='circle' />;
+    if (projectsTasksError || teamsError || usersError) return <div>Error loading data.</div>;
 
     return (
         <>
@@ -138,7 +184,7 @@ const ProjectsTasksTable = () => {
 
             <Flex vertical gap="middle">
                 {/* Inputs */}
-                <Flex gap='small'>
+                <Flex gap='small' justify='space-between' wrap='wrap'>
                     <div className='input-and-label-pair'>
                         <label htmlFor='team-select' className='input-label'>Team</label>
                         <Select 
@@ -162,6 +208,62 @@ const ProjectsTasksTable = () => {
                             allowClear
                             maxTagCount={1}
                             style={{ width: 400 }}
+                        />
+                    </div>
+
+                    <div className='input-and-label-pair'>
+                        <label htmlFor='user-select' className='input-label'>Users</label>
+                        <Select 
+                            id='user-select'
+                            value={selectedUsers}
+                            onChange={setSelectedUsers}
+                            options={userOptions}
+                            mode='multiple'
+                            allowClear
+                            maxTagCount={1}
+                            style={{ width: 250 }}
+                        />
+                    </div>
+
+                    <div className='input-and-label-pair'>
+                        <label htmlFor='project-priority-select' className='input-label'>Project Priority</label>
+                        <Select 
+                            id='project-priority-select'
+                            value={selectedProjectPriorities}
+                            onChange={setSelectedProjectPriorities}
+                            options={priorityOptions}
+                            mode='multiple'
+                            allowClear
+                            maxTagCount={1}
+                            style={{ width: 300 }}
+                        />
+                    </div>
+
+                    <div className='input-and-label-pair'>
+                        <label htmlFor='project-status-select' className='input-label'>Project Status</label>
+                        <Select 
+                            id='project-status-select'
+                            value={selectedProjectStatuses}
+                            onChange={setSelectedProjectStatuses}
+                            options={statusOptions}
+                            mode='multiple'
+                            allowClear
+                            maxTagCount={1}
+                            style={{ width: 300 }}
+                        />
+                    </div>
+
+                    <div className='input-and-label-pair'>
+                        <label htmlFor='task-status-select' className='input-label'>Task Status</label>
+                        <Select 
+                            id='task-status-select'
+                            value={selectedTaskStatuses}
+                            onChange={setSelectedTaskStatuses}
+                            options={statusOptions}
+                            mode='multiple'
+                            allowClear
+                            maxTagCount={1}
+                            style={{ width: 300 }}
                         />
                     </div>
                 </Flex>
