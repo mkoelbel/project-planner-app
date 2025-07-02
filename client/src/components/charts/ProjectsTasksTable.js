@@ -9,17 +9,21 @@ import dayjs from 'dayjs';
 import { useEffect, useMemo, useState } from 'react';
 import './ProjectsTasksTable.css';
 
+// Colors
+const purple = '#9648c7';
+const orange = '#ff7a45';
+
 // Table columns
 const projectIconColumn = {
     title: '',
     key: 'icon',
-    render: () => <ProductOutlined style={{ color: '#9648c7', fontSize: 16 }} />,
+    render: () => <ProductOutlined style={{ color: purple, fontSize: 16 }} />,
     width: 50,
 };
 const taskIconColumn = {
     title: '',
     key: 'icon',
-    render: () => <FileTextOutlined style={{ color: '#ff7a45', fontSize: 16 }} />,
+    render: () => <FileTextOutlined style={{ color: orange, fontSize: 16 }} />,
     width: 50,
 };
 const SharedColumns = [
