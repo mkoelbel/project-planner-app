@@ -75,6 +75,11 @@ const taskColumns = [taskIconColumn, ...SharedColumns];
 
 const ProjectsTasksTable = () => {
     // 1. Fetch data
+    // React Note: No need to use state, since these variables will not change over
+    //     time (after they are first populated).
+    //     The custom hooks use useQuery, which caches the data and does not re-fetch
+    //     on every render. useQuery internally uses useState, so a re-render of 
+    //     this component will be triggered when these objects populate.
     const { 
         data: projectsTasks = [], 
         isLoading: projectsTasksLoading, 
@@ -93,27 +98,23 @@ const ProjectsTasksTable = () => {
         error: usersError
     } = useUsers();
 
-    // 2. Get input options    
-    const teamOptions = useMemo(() => 
-        teams.map(team => ({
-            value: team.id,
-            label: team.name,
-        })), [teams]
-    );
+    // 2. Get input options
+    // React Note: No need to use state, for same reason as above. These will re-run 
+    //     on every re-render, but operation is not expensive.
+    const teamOptions = teams.map(team => ({
+        value: team.id,
+        label: team.name,
+    }));
 
-    const projectOptions = useMemo(() =>
-        projectsTasks.map(project => ({
-            value: project.id,
-            label: project.name,
-        })), [projectsTasks]
-    );
+    const projectOptions = projectsTasks.map(project => ({
+        value: project.id,
+        label: project.name,
+    }));
 
-    const userOptions = useMemo(() =>
-        users.map(user => ({
-            value: user.id,
-            label: `${user.last_name}, ${user.first_name}`,
-        })), [users]
-    );
+    const userOptions = users.map(user => ({
+        value: user.id,
+        label: `${user.last_name}, ${user.first_name}`,
+    }));
 
     const priorityOptions = Object.entries(PRIORITY_LABELS).map(([key, label]) => ({
         value: key,
@@ -126,15 +127,22 @@ const ProjectsTasksTable = () => {
     }));
 
     // 3. Initialize selected inputs
+    // React Note: Using state since these variables will change over time, and  
+    //     should trigger re-renders when updated.
+    // The below inputs depend on fetched data, which may not be ready yet, so
+    // initialize them as null or empty arrays for now.
     const [selectedTeam, setSelectedTeam] = useState(null);
     const [selectedProjects, setSelectedProjects] = useState([]);
     const [selectedUsers, setSelectedUsers] = useState([]);
-    // Can initialize these with defaults now, since they don't depend on any fetched data
+    // The below inputs do NOT depend on fetched data, so we can initialize them 
+    // with actual values.
     const [selectedProjectPriorities, setSelectedProjectPriorities] = useState(priorityOptions.map(option => option.value));
     const [selectedProjectStatuses, setSelectedProjectStatuses] = useState(statusOptions.map(option => option.value));
     const [selectedTaskStatuses, setSelectedTaskStatuses] = useState(statusOptions.map(option => option.value));
 
     // 4. Set default input selections
+    // React Note: Using useEffect since we cannot set state in the main component 
+    //     logic.
     useEffect(() => {
         if (teamOptions.length > 0 && !selectedTeam) {
             setSelectedTeam(teamOptions[0].value);
@@ -156,6 +164,8 @@ const ProjectsTasksTable = () => {
     }, [userOptions, selectedUsers]);
 
     // 5. Filter data based on input selections
+    // React Note: Using useMemo to avoid unnecessary recalculations of filtered 
+    //     data.
     const filteredProjectsTasks = useMemo(() => {
         const result = projectsTasks
         .filter(project =>
